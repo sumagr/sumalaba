@@ -13,7 +13,7 @@ public class DeliveryCalculator {
     Address destination;
 
     Item item;
-    private  DeliveryPartner partner;
+    private String partner;
     private DeliveryMode mode;
     private Distance distance;
     private Speed speed;
@@ -28,6 +28,7 @@ public class DeliveryCalculator {
     }
 
     public double calculateDeliveryCharge() throws DeliveryCalculatorException {
+        //Collection Stream
         double weight = getPackages().stream()
                 .mapToDouble(Item::getWeight)
                 .sum();
@@ -35,7 +36,7 @@ public class DeliveryCalculator {
         double weightCharge = getWeightCharge(weight);
         double distanceCharge = getDistanceCharge(distance, mode);
         double speedCharge = getSpeedCharge(getSpeed());
-        double partnerCharge = getPartnerCharge(partner);
+        double partnerCharge = getPartnerCharge(this.partner);
 
         try {
             double totalCharge = weightCharge + distanceCharge + speedCharge + partnerCharge;
@@ -85,15 +86,15 @@ public class DeliveryCalculator {
         }
     }
 
-    public double getPartnerCharge(DeliveryPartner partner) throws DeliveryCalculatorException {
-        if (partner.getName().equalsIgnoreCase("Partner A")) {
+    public double getPartnerCharge(String partner) throws DeliveryCalculatorException {
+        if (partner.equalsIgnoreCase("Partner A")) {
             return 20.0;
-        } else if (partner.getName().equalsIgnoreCase("Partner B")) {
+        } else if (partner.equalsIgnoreCase("Partner B")) {
             return 15.0;
-        } else if (partner.getName().equalsIgnoreCase("Partner C")) {
+        } else if (partner.equalsIgnoreCase("Partner C")) {
             return 10.0;
         } else {
-            throw new DeliveryCalculatorException("Invalid partner: " + partner.getName());
+            throw new DeliveryCalculatorException("Invalid partner: " + partner);
         }
     }
 
@@ -121,12 +122,8 @@ public class DeliveryCalculator {
         this.weight = weight;
     }
 
-    public DeliveryPartner getPartner() {
+    public String getPartner() {
         return partner;
-    }
-
-    public void setPartner(DeliveryPartner partner) {
-        this.partner = partner;
     }
 
     public DeliveryMode getMode() {
@@ -161,6 +158,7 @@ public class DeliveryCalculator {
         Packages = packages;
     }
 
-    public void setPartner(com.solvd.delivery.enums.DeliveryPartner deliveryPartner) {
+    public void setPartner(String deliveryPartner) {
+        this.partner = deliveryPartner;
     }
 }

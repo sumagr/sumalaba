@@ -50,7 +50,7 @@ public class Main {
             Class<?> creditCardClass = Class.forName("CreditCard");
             Constructor<?> creditCardConstructor = creditCardClass.getConstructor(double.class, String.class, String.class, int.class, double.class);
             Object creditCardPayment = creditCardConstructor.newInstance(totalCharge, "1234-5678-9012-3456", "12/24", 123, 500.0);
-
+            
             // Reflection: Invoke processPayment method using a lambda expression
             Method processPaymentMethod = creditCardClass.getMethod("processPayment");
             Consumer<Object> processPayment = (payment) -> {
@@ -69,7 +69,7 @@ public class Main {
             Method infoMethod = logClass.getMethod("info", Object.class);
             Supplier<String> printDetails = () -> "Credit card payment processed.";
             infoMethod.invoke(logger, printDetails.get());
-
+            		
 		} catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InstantiationException
 				| InvocationTargetException e) {
 			e.printStackTrace();
