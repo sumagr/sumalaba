@@ -23,21 +23,23 @@ public class UniqueWord {
     }
     public static void usingFileUtils() throws IOException {
         // get the file object
-        File file = new File("C:\\Idea Projects\\Solvd\\src\\main\\java\\Test.txt");
+        File file = new File("src/main/java/Test.txt");
 
         try {
             List<String> contents = FileUtils.readLines(file, "UTF-8");
             Set<String> uniqueCount = new HashSet<>();
+
             // Lambda expression
             contents.stream()
-                    .map(StringUtils::split)
+                    .map(line -> StringUtils.split(line, "[\\s,\\.]+"))
                     .flatMap(Arrays::stream)
                     .forEach(uniqueCount::add);
 
-            System.out.println("Unique Words: "+ uniqueCount.size());
-            File result = new File("temp.txt");
-            FileUtils.writeStringToFile(result, String.valueOf(uniqueCount.size()));
+            System.out.println("Unique Words: " + uniqueCount.size());
 
+            // Write the result to a file
+            File result = new File("temp.txt");
+            FileUtils.writeStringToFile(result, String.valueOf(uniqueCount.size()), "UTF-8");
         } catch (IOException e) {
             e.printStackTrace();
         }
